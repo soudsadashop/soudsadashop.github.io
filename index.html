@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="lo">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>SOUDSADA SHOP – ສັ່ງຊື້ສິນຄ້າ</title>
+<style>
+:root {
+  --green:    #2D7A55;
+  --green-dk: #1B5E3A;
+  --green-lt: #E8F5EE;
+  --green-md: #4CAF7D;
+  --gold:     #C8973A;
+  --gold-lt:  #FDF6E8;
+  --ink:      #1A1A2E;
+  --muted:    #6B7280;
+  --border:   #E2E8F0;
+  --surface:  #FFFFFF;
+  --bg:       #F0F4F8;
+  --red:      #DC2626;
+  --radius:   10px;
+  --shadow:   0 2px 12px rgba(0,0,0,.08);
+  --shadow-lg:0 8px 32px rgba(0,0,0,.12);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI','Noto Sans Lao',sans-serif;background:var(--bg);color:var(--ink);font-size:13px;min-height:100vh}
+img{display:block;max-width:100%}
+button{cursor:pointer;font-family:inherit;transition:all .15s}
+input,select,textarea{font-family:inherit}
+
+/* ─── HEADER ─────────────────────────────── */
+.site-header{
+  background:linear-gradient(135deg,#1B5E3A 0%,#2D7A55 55%,#4CAF7D 100%);
+  padding:10px 16px;
+  display:flex;align-items:center;gap:10px;
+  position:sticky;top:0;z-index:300;
+  box-shadow:0 2px 20px rgba(0,0,0,.3);
+}
+.header-logo{width:42px;height:42px;border-radius:50%;border:2px solid rgba(255,255,255,.85);object-fit:cover;flex-shrink:0}
+.header-info h1{font-size:16px;font-weight:800;color:#fff;line-height:1.2}
+.header-info p{font-size:10px;color:rgba(255,255,255,.75);margin-top:1px}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.header-btn{
+  display:flex;align-items:center;gap:5px;
+  background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.4);
+  border-radius:18px;color:#fff;padding:5px 12px;
+  font-size:11px;font-weight:700;white-space:nowrap;text-decoration:none;
+  transition:background .2s;
+}
+.header-btn:hover{background:rgba(255,255,255,.28)}
+.admin-btn{background:rgba(255,200,0,.25);border-color:rgba(255,200,0,.6)}
+.admin-btn:hover{background:rgba(255,200,0,.4)}
+.cart-count{background:var(--gold);color:#fff;border-radius:50%;width:17px;height:17px;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center}
+
+/* ─── NOTICE ─────────────────────────────── */
+.notice-bar{
+  background:var(--gold-lt);border-bottom:1px solid #F0D89A;
+  padding:6px 14px;font-size:11px;color:#7C5B1A;text-align:center;line-height:1.5;
+}
+
+/* ─── STATUS STRIP ───────────────────────── */
+.status-strip{
+  background:var(--surface);border-bottom:1px solid var(--border);
+  padding:8px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+}
+.status-strip-label{font-size:11px;font-weight:700;color:var(--muted);white-space:nowrap}
+.status-strip-row{display:flex;gap:6px;flex:1;min-width:200px}
+.status-strip-input{
+  flex:1;padding:7px 12px;border:1.5px solid var(--border);border-radius:8px;
+  font-size:12px;font-weight:700;outline:none;color:var(--ink);
+  transition:border-color .2s;
+}
+.status-strip-input:focus{border-color:var(--green)}
+.status-strip-btn{
+  background:var(--green);color:#fff;border:none;border-radius:8px;
+  padding:7px 14px;font-size:11px;font-weight:800;white-space:nowrap;
+}
+.status-strip-btn:hover{background:var(--green-dk)}
+.status-result-strip{width:100%;margin-top:6px;display:none}
+.status-result-strip.show{display:block}
+
+/* ─── STATUS RESULT ──────────────────────── */
+.status-box{
+  background:var(--surface);border:1.5px solid var(--border);border-radius:10px;
+  overflow:hidden;animation:fadeUp .2s ease;
+}
+.status-box-header{
+  background:var(--green-lt);border-bottom:1px solid #A8D5BC;
+  padding:9px 14px;display:flex;justify-content:space-between;align-items:center;
+}
+.status-code-lbl{font-size:12px;font-weight:800;color:var(--green)}
+.status-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:800}
+.badge-waiting{background:#FEF3C7;color:#92400E}
+.badge-accepted{background:#DBEAFE;color:#1E40AF}
+.badge-packing{background:#EDE9FE;color:#5B21B6}
+.badge-shipped{background:#D1FAE5;color:#065F46}
+.status-box-body{padding:10px 14px}
+.status-info-row{display:flex;justify-content:space-between;padding:3px 0;font-size:11px;border-bottom:1px dashed var(--border);gap:6px}
+.status-info-row:last-child{border-bottom:none}
+.sil{color:var(--muted);flex-shrink:0}
+.siv{font-weight:700;text-align:right}
+/* Step tracker */
+.step-tracker{display:flex;align-items:flex-start;justify-content:space-between;margin:10px 0 4px;position:relative}
+.step-tracker::before{content:'';position:absolute;top:12px;left:12px;right:12px;height:3px;background:var(--border);z-index:0}
+.step-progress{position:absolute;top:12px;left:12px;height:3px;background:var(--green);z-index:1;transition:width .4s ease}
+.step-item{display:flex;flex-direction:column;align-items:center;gap:4px;z-index:2;flex:1}
+.step-dot{width:24px;height:24px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;border:2px solid var(--surface);box-shadow:0 0 0 2px var(--border);transition:all .3s}
+.step-dot.done{background:var(--green);box-shadow:0 0 0 2px var(--green)}
+.step-dot.active{background:var(--gold);box-shadow:0 0 0 2px var(--gold);animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+.step-lbl{font-size:8px;font-weight:700;color:var(--muted);text-align:center;line-height:1.3;max-width:50px}
+.step-item.done .step-lbl{color:var(--green)}
+.step-item.active .step-lbl{color:var(--gold)}
+.status-not-found{text-align:center;padding:14px;font-size:12px;color:var(--muted)}
+
+/* ─── MAIN LAYOUT ────────────────────────── */
+.main{max-width:1200px;margin:0 auto;padding:12px 12px 80px}
+.shop-layout{display:grid;grid-template-columns:1fr 380px;gap:12px;align-items:start}
+@media(max-width:860px){.shop-layout{grid-template-columns:1fr}}
+
+/* ─── LEFT PANEL ─────────────────────────── */
+.left-panel{}
+.panel-card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;margin-bottom:12px}
+.panel-header{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.panel-title{font-size:13px;font-weight:800;color:var(--green);display:flex;align-items:center;gap:6px}
+.search-wrap{position:relative;padding:10px 12px;border-bottom:1px solid var(--border)}
+.search-icon{position:absolute;left:22px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--muted);pointer-events:none}
+.search-input{width:100%;padding:8px 10px 8px 32px;border:1.5px solid var(--border);border-radius:20px;font-size:12px;background:var(--bg);outline:none;transition:border-color .2s}
+.search-input:focus{border-color:var(--green)}
+
+/* ─── PRODUCT GRID ───────────────────────── */
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;padding:10px}
+.prod-card{background:var(--bg);border-radius:8px;border:2px solid var(--border);overflow:hidden;cursor:pointer;transition:all .18s;position:relative;user-select:none}
+.prod-card:hover{border-color:#A8D5BC;box-shadow:var(--shadow);transform:translateY(-1px)}
+.prod-card:active{transform:scale(.97)}
+.prod-card.selected{border-color:var(--green);box-shadow:0 0 0 3px rgba(45,122,85,.15);background:var(--green-lt)}
+.prod-card.out{opacity:.45;cursor:not-allowed}
+.prod-thumb-wrap{width:100%;aspect-ratio:1/1;background:#F3F4F6;overflow:hidden}
+.prod-thumb{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.prod-card:hover .prod-thumb{transform:scale(1.06)}
+.prod-info{padding:7px 8px 8px}
+.prod-name{font-size:11px;font-weight:700;line-height:1.3;color:var(--ink);margin-bottom:3px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;min-height:28px}
+.prod-price{font-size:12px;font-weight:800;color:var(--green)}
+.prod-stock-badge{display:inline-block;padding:1px 7px;border-radius:20px;font-size:9px;font-weight:700;margin-top:2px}
+.badge-ok{background:#DCF5E8;color:#1A6B3C}
+.badge-low{background:#FEF3C7;color:#92400E}
+.badge-out{background:#FEE2E2;color:#991B1B}
+.check-overlay{position:absolute;top:5px;right:5px;width:20px;height:20px;background:var(--green);border-radius:50%;color:#fff;font-size:12px;font-weight:900;display:none;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+.prod-card.selected .check-overlay{display:flex}
+.empty-state{text-align:center;padding:28px 14px;color:var(--muted);font-size:12px;grid-column:1/-1}
+.empty-state .eicon{font-size:32px;margin-bottom:8px}
+
+/* ─── QTY PANEL ──────────────────────────── */
+.qty-panel{
+  display:none;
+  background:var(--surface);
+  border:2px solid var(--green);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:12px 14px;
+  margin-bottom:12px;
+  animation:fadeUp .2s ease;
+}
+.qty-panel.open{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.qty-panel-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:8px;flex-wrap:wrap}
+.qty-prod-name{font-weight:800;color:var(--green);font-size:13px;flex:1}
+.qty-stock-info{font-size:10px;color:var(--muted);background:var(--green-lt);padding:2px 8px;border-radius:10px;white-space:nowrap}
+.qty-row{display:flex;align-items:center;gap:8px}
+.qty-ctrl{display:flex;align-items:center;border:1.5px solid var(--border);border-radius:7px;overflow:hidden;background:var(--surface)}
+.qty-btn{width:34px;height:34px;background:var(--green-lt);border:none;font-size:18px;font-weight:700;color:var(--green)}
+.qty-btn:active{background:#C5E8D4}
+.qty-num{width:48px;text-align:center;border:none;outline:none;font-size:15px;font-weight:700;background:var(--surface)}
+.qty-add-btn{flex:1;background:var(--green);color:#fff;border:none;border-radius:7px;padding:10px 0;font-size:13px;font-weight:700}
+.qty-add-btn:hover{background:var(--green-dk)}
+
+/* ─── RIGHT PANEL ────────────────────────── */
+.right-panel{}
+
+/* ─── CART ───────────────────────────────── */
+.cart-items-wrap{max-height:280px;overflow-y:auto}
+.cart-item{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 14px;border-bottom:1px solid var(--border);gap:8px}
+.cart-item:last-child{border-bottom:none}
+.cart-item-name{font-weight:700;font-size:12px}
+.cart-item-detail{font-size:10px;color:var(--muted);margin-top:1px}
+.cart-item-right{text-align:right;flex-shrink:0}
+.cart-item-price{font-weight:800;font-size:12px;color:var(--green)}
+.cart-remove{font-size:10px;color:var(--red);background:none;border:none;margin-top:2px}
+.cart-total-row{padding:10px 14px;background:var(--green-lt);border-top:1.5px solid #A8D5BC;display:flex;justify-content:space-between;align-items:center}
+.cart-total-row span{font-size:12px;font-weight:700;color:var(--green)}
+.cart-total-row strong{font-size:16px;font-weight:900;color:var(--green)}
+.cart-empty{text-align:center;padding:20px;color:var(--muted);font-size:12px}
+.cart-header{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.cart-header h3{font-size:13px;font-weight:800;color:var(--green)}
+.cart-clear-btn{font-size:10px;color:var(--muted);background:none;border:none;text-decoration:underline}
+
+/* ─── ORDER FORM ─────────────────────────── */
+.form-section{padding:12px 14px;border-bottom:1px solid var(--border)}
+.form-section:last-child{border-bottom:none}
+.form-section-title{font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
+.field{margin-bottom:8px}
+.field:last-child{margin-bottom:0}
+.field label{display:block;font-size:10px;font-weight:700;color:var(--muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:.3px}
+.field label .req{color:var(--red);margin-left:2px}
+.field input,.field select,.field textarea{width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:7px;font-size:12px;color:var(--ink);background:var(--surface);outline:none;transition:border-color .2s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--green)}
+.field input.invalid,.field select.invalid,.field textarea.invalid{border-color:var(--red)}
+.field-row{display:flex;gap:7px}
+.field-row .field{flex:1;min-width:0}
+.field-error{font-size:10px;color:var(--red);margin-top:3px;display:none}
+.field-error.show{display:block}
+
+/* ─── SHIP OPTIONS ───────────────────────── */
+.ship-opts{display:flex;flex-wrap:wrap;gap:5px}
+.ship-opt{display:flex;align-items:center;gap:4px;background:var(--bg);border:1.5px solid var(--border);border-radius:7px;padding:6px 10px;font-size:11px;font-weight:700;cursor:pointer;transition:all .18s;user-select:none}
+.ship-opt input{display:none}
+.ship-opt.active{background:var(--green-lt);border-color:var(--green);color:var(--green)}
+
+/* ─── PAYMENT OPTIONS ────────────────────── */
+.pay-opts{display:flex;flex-direction:column;gap:6px}
+.pay-opt{display:flex;align-items:flex-start;gap:9px;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:9px 11px;cursor:pointer;transition:all .18s;user-select:none}
+.pay-opt input{display:none}
+.pay-opt.active{background:var(--green-lt);border-color:var(--green)}
+.pay-opt-icon{font-size:17px;flex-shrink:0;margin-top:1px}
+.pay-opt-name{font-size:12px;font-weight:700;color:var(--ink)}
+.pay-opt-desc{font-size:10px;color:var(--muted);margin-top:1px}
+
+/* ─── QR PAYMENT BOX ─────────────────────── */
+.qr-pay-box{display:none;background:var(--green-lt);border:2px solid var(--green);border-radius:10px;padding:12px;margin-top:8px;animation:fadeUp .2s ease}
+.qr-pay-box.show{display:block}
+.qr-pay-title{font-size:11px;font-weight:800;color:var(--green);margin-bottom:8px;text-align:center}
+.qr-img-wrap{position:relative;display:inline-flex;flex-direction:column;align-items:center;width:100%}
+.qr-img{width:160px;height:160px;object-fit:contain;border-radius:8px;border:2px solid var(--border);background:#fff;display:block;margin:0 auto}
+.qr-dl-btn{margin-top:6px;display:inline-flex;align-items:center;gap:5px;background:var(--green);color:#fff;border:none;border-radius:7px;padding:6px 14px;font-size:11px;font-weight:700}
+.qr-dl-btn:hover{background:var(--green-dk)}
+.cod-warning{display:none;background:#FEF3C7;border:1.5px solid #F59E0B;border-radius:8px;padding:9px 11px;font-size:11px;color:#92400E;margin-top:7px;line-height:1.5}
+.cod-warning.show{display:block}
+
+/* ─── FILE UPLOAD ────────────────────────── */
+.file-upload-area{border:2px dashed var(--border);border-radius:8px;padding:16px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg)}
+.file-upload-area:hover,.file-upload-area.dragover{border-color:var(--green);background:var(--green-lt)}
+.file-upload-area input{display:none}
+.file-upload-icon{font-size:24px;margin-bottom:5px}
+.file-upload-text{font-size:11px;color:var(--muted);line-height:1.5}
+.file-upload-text strong{color:var(--green)}
+.file-preview{display:none;margin-top:7px;position:relative}
+.file-preview img{width:100%;max-height:160px;object-fit:contain;border-radius:7px;border:1.5px solid var(--border)}
+.file-remove{position:absolute;top:3px;right:3px;background:var(--red);color:#fff;border:none;border-radius:50%;width:22px;height:22px;font-size:12px;display:flex;align-items:center;justify-content:center}
+
+/* ─── SUBMIT BAR ─────────────────────────── */
+.submit-bar{position:fixed;bottom:0;left:0;right:0;background:var(--surface);padding:10px 14px;box-shadow:0 -2px 16px rgba(0,0,0,.1);z-index:200}
+.submit-btn{width:100%;max-width:1200px;margin:0 auto;display:block;background:linear-gradient(135deg,#2D7A55,#1B5E3A);color:#fff;border:none;border-radius:10px;padding:12px;font-size:14px;font-weight:800;letter-spacing:.3px;box-shadow:0 4px 18px rgba(45,122,85,.35)}
+.submit-btn:hover{opacity:.93}
+.submit-btn:active{transform:scale(.99)}
+.submit-btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* ─── LOADING ─────────────────────────────── */
+.loading-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+.loading-overlay.show{display:flex}
+.spinner{width:40px;height:40px;border:4px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{color:#fff;font-size:13px;font-weight:700}
+
+/* ─── SUCCESS MODAL ──────────────────────── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;align-items:center;justify-content:center;padding:16px}
+.modal-overlay.show{display:flex}
+.modal-box{background:var(--surface);border-radius:18px;padding:24px 20px;max-width:420px;width:100%;text-align:center;animation:popIn .35s cubic-bezier(.22,1,.36,1);max-height:92vh;overflow-y:auto}
+@keyframes popIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+.success-icon{font-size:48px;margin-bottom:8px}
+.success-title{font-size:17px;font-weight:800;color:var(--green);margin-bottom:5px}
+.success-code-box{background:var(--green-lt);border:1.5px solid #A8D5BC;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:700;color:var(--green);margin:8px 0;letter-spacing:1px}
+.success-bill{background:var(--bg);border:1.5px solid var(--border);border-radius:9px;padding:9px 12px;margin:9px 0;text-align:left;font-size:11px}
+.success-bill-row{display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px dashed var(--border);gap:6px}
+.success-bill-row:last-child{border-bottom:none}
+.sbl{color:var(--muted);flex-shrink:0}
+.sbv{font-weight:700;color:var(--ink);text-align:right}
+.success-bill-total{display:flex;justify-content:space-between;padding:6px 0 0;font-size:13px;font-weight:900;color:var(--green)}
+.success-pay-msg{font-size:11px;color:var(--green);font-weight:700;margin:5px 0}
+.success-tip{background:#FEF3C7;border:1.5px solid #F59E0B;border-radius:8px;padding:9px 11px;font-size:11px;color:#92400E;margin:8px 0;line-height:1.6;text-align:left}
+.success-actions{display:flex;gap:7px;margin-top:10px;flex-wrap:wrap}
+.success-dl-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;background:var(--green);color:#fff;border:none;border-radius:9px;padding:10px;font-size:12px;font-weight:700;min-width:120px}
+.success-dl-btn:hover{background:var(--green-dk)}
+.success-new-btn{flex:1;background:var(--bg);color:var(--green);border:2px solid var(--green);border-radius:9px;padding:10px;font-size:12px;font-weight:700;min-width:120px}
+.success-new-btn:hover{background:var(--green-lt)}
+.wa-btn{display:inline-flex;align-items:center;gap:5px;background:#25D366;color:#fff;border:none;border-radius:7px;padding:7px 14px;font-size:11px;font-weight:700;text-decoration:none;margin-top:5px}
+
+/* ─── ADMIN PANEL ────────────────────────── */
+.admin-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;overflow-y:auto;padding:16px}
+.admin-modal.show{display:block}
+.admin-box{background:var(--surface);border-radius:16px;max-width:900px;margin:0 auto;overflow:hidden;animation:popIn .3s ease}
+.admin-header{background:linear-gradient(135deg,#1B5E3A,#2D7A55);padding:14px 18px;display:flex;align-items:center;justify-content:space-between}
+.admin-header h2{color:#fff;font-size:16px;font-weight:800}
+.admin-close{background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.4);color:#fff;border-radius:8px;padding:5px 12px;font-size:12px;font-weight:700}
+.admin-login-box{padding:24px;text-align:center}
+.admin-login-box h3{font-size:16px;font-weight:800;margin-bottom:16px;color:var(--green)}
+.admin-login-inp{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;margin-bottom:8px;outline:none}
+.admin-login-inp:focus{border-color:var(--green)}
+.admin-login-btn{width:100%;background:var(--green);color:#fff;border:none;border-radius:8px;padding:11px;font-size:14px;font-weight:700}
+.admin-content{padding:14px}
+.admin-tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.admin-tab{background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:7px 14px;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer}
+.admin-tab.active{background:var(--green-lt);border-color:var(--green);color:var(--green)}
+.orders-table-wrap{overflow-x:auto;border-radius:8px;border:1px solid var(--border)}
+.orders-table{width:100%;border-collapse:collapse;font-size:11px}
+.orders-table th{background:var(--green);color:#fff;padding:8px 10px;text-align:left;white-space:nowrap;font-weight:700}
+.orders-table td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+.orders-table tr:last-child td{border-bottom:none}
+.orders-table tr:hover td{background:#F8FFF8}
+.order-status-sel{padding:4px 8px;border:1.5px solid var(--border);border-radius:6px;font-size:10px;font-weight:700;cursor:pointer;outline:none}
+.slip-thumb{width:50px;height:40px;object-fit:cover;border-radius:5px;border:1px solid var(--border);cursor:pointer}
+.slip-view-btn{color:var(--green);font-size:10px;font-weight:700;background:none;border:none;cursor:pointer;text-decoration:underline;margin-top:2px;display:block}
+.admin-stat{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.stat-card{flex:1;min-width:100px;background:var(--green-lt);border:1.5px solid #A8D5BC;border-radius:9px;padding:10px 12px;text-align:center}
+.stat-num{font-size:22px;font-weight:900;color:var(--green)}
+.stat-lbl{font-size:10px;color:var(--muted);font-weight:700;margin-top:2px}
+.admin-filter{display:flex;gap:6px;margin-bottom:9px;flex-wrap:wrap}
+.admin-filter-inp{flex:1;min-width:140px;padding:7px 10px;border:1.5px solid var(--border);border-radius:7px;font-size:12px;outline:none}
+.admin-filter-inp:focus{border-color:var(--green)}
+.admin-refresh-btn{background:var(--green);color:#fff;border:none;border-radius:7px;padding:7px 12px;font-size:11px;font-weight:700}
+.order-code{font-weight:800;color:var(--green);font-size:10px}
+
+/* slip full view */
+.slip-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:99999;align-items:center;justify-content:center}
+.slip-modal.show{display:flex}
+.slip-modal img{max-width:90vw;max-height:90vh;border-radius:10px;object-fit:contain}
+.slip-modal-close{position:absolute;top:16px;right:16px;background:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:18px;font-weight:900;cursor:pointer}
+
+/* bill canvas for download */
+#bill-canvas{display:none}
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ─────────────────────────────── -->
+<header class="site-header">
+  <img class="header-logo"
+    src="https://i.postimg.cc/d322Q33X/LOGO.jpg"
+    onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 60 60\'%3E%3Ccircle cx=\'30\' cy=\'30\' r=\'30\' fill=\'%232D7A55\'/%3E%3Ctext x=\'50%25\' y=\'56%25\' text-anchor=\'middle\' fill=\'white\' font-size=\'22\' font-weight=\'bold\'%3ES%3C/text%3E%3C/svg%3E'"
+    alt="SOUDSADA">
+  <div class="header-info">
+    <h1>SOUDSADA SHOP</h1>
+    <p>ຮ້ານຂາຍສິນຄ້າຄວາມງາມ · ຝາກສົ່ງທົ່ວລາວ</p>
+  </div>
+  <div class="header-right">
+    <a class="header-btn" href="https://wa.link/3c7y89" target="_blank">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      ຕິດຕໍ່
+    </a>
+    <button class="header-btn admin-btn" onclick="openAdmin()">🔐 Admin</button>
+    <button class="header-btn" onclick="scrollToCart()" style="gap:5px">
+      🛒 <span class="cart-count" id="cart-count">0</span>
+    </button>
+  </div>
+</header>
+
+<!-- ─── NOTICE ─────────────────────────────── -->
+<div class="notice-bar">
+  ✅ ສິນຄ້າຂອງແທ້ · ສົ່ງທົ່ວລາວ · COD ສະເພາະ ອານຸສິດ ✈️ &nbsp;|&nbsp; ສອບຖາມ: WhatsApp / Facebook
+</div>
+
+<!-- ─── STATUS STRIP ───────────────────────── -->
+<div class="status-strip">
+  <span class="status-strip-label">🔍 ກວດສອບອໍເດີ:</span>
+  <div class="status-strip-row">
+    <input class="status-strip-input" id="track-code-inp" type="text"
+      placeholder="ໃສ່ເລກບິນ ເຊັ່ນ P1234-5678"
+      onkeydown="if(event.key==='Enter')checkStatus()">
+    <button class="status-strip-btn" onclick="checkStatus()">ກວດສອບ</button>
+  </div>
+  <div class="status-result-strip" id="status-result-strip"></div>
+</div>
+
+<!-- ─── MAIN ───────────────────────────────── -->
+<main class="main">
+  <div class="shop-layout">
+
+    <!-- LEFT: PRODUCTS -->
+    <div class="left-panel">
+      <div class="panel-card">
+        <div class="panel-header">
+          <div class="panel-title">🛍️ ເລືອກສິນຄ້າ</div>
+          <span id="prod-count-lbl" style="font-size:11px;color:var(--muted)"></span>
+        </div>
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input class="search-input" id="search-inp" type="text" placeholder="ຄົ້ນຫາສິນຄ້າ..." oninput="filterProds()">
+        </div>
+        <div class="prod-grid" id="prod-grid">
+          <div class="empty-state"><div class="eicon">⏳</div><div>ກຳລັງໂຫຼດສິນຄ້າ...</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: QTY + CART + FORM -->
+    <div class="right-panel" id="right-panel">
+
+      <!-- QTY PANEL — ດ້ານເທີ່ງຂວາ ຕິດ cart -->
+      <div class="qty-panel" id="qty-panel">
+        <div class="qty-panel-top">
+          <div class="qty-prod-name" id="qty-name"></div>
+          <div class="qty-stock-info" id="qty-stock"></div>
+        </div>
+        <div class="qty-row">
+          <div class="qty-ctrl">
+            <button class="qty-btn" onclick="changeQty(-1)">−</button>
+            <input class="qty-num" id="qty-num" type="number" value="1" min="1" max="99">
+            <button class="qty-btn" onclick="changeQty(1)">+</button>
+          </div>
+          <button class="qty-add-btn" onclick="addToCart()">🛒 ເພີ່ມລົງກະຕ່າ</button>
+        </div>
+      </div>
+
+      <!-- CART -->
+      <div class="panel-card" id="cart-panel">
+        <div class="cart-header">
+          <h3>🛒 ລາຍການສິນຄ້າ</h3>
+          <button class="cart-clear-btn" onclick="clearCart()">ລ້າງທັງໝົດ</button>
+        </div>
+        <div class="cart-items-wrap">
+          <div class="cart-items" id="cart-items">
+            <div class="cart-empty">📦 ຍັງບໍ່ທັນເລືອກສິນຄ້າ<br><small>ເລືອກສິນຄ້າຈາກດ້ານຊ້າຍ</small></div>
+          </div>
+        </div>
+        <div class="cart-total-row">
+          <span>ລວມທັງໝົດ</span>
+          <strong id="cart-total">0 ₭</strong>
+        </div>
+      </div>
+
+      <!-- ORDER FORM -->
+      <div class="panel-card" id="form-anchor" style="margin-top:0">
+
+        <!-- Customer Info -->
+        <div class="form-section">
+          <div class="form-section-title">👤 ຂໍ້ມູນຜູ້ສັ່ງ</div>
+          <div class="field-row">
+            <div class="field">
+              <label>ຊື່ລູກຄ້າ <span class="req">*</span></label>
+              <input type="text" id="c-name" placeholder="ໃສ່ຊື່">
+              <div class="field-error" id="err-name">ກະລຸນາໃສ່ຊື່</div>
+            </div>
+            <div class="field">
+              <label>ເບີໂທ <span class="req">*</span></label>
+              <input type="tel" id="c-phone" placeholder="020xxxxxxxx">
+              <div class="field-error" id="err-phone">ກະລຸນາໃສ່ເບີ</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Address -->
+        <div class="form-section">
+          <div class="form-section-title">📍 ທີ່ຢູ່ຈັດສົ່ງ</div>
+          <div class="field">
+            <label>ແຂວງ <span class="req">*</span></label>
+            <select id="c-province">
+              <option value="">— ເລືອກແຂວງ —</option>
+              <option>ວຽງຈັນ (ນະຄອນຫຼວງ)</option><option>ວຽງຈັນ (ແຂວງ)</option>
+              <option>ບໍລິຄຳໄຊ</option><option>ຄຳມ່ວນ</option><option>ສະຫວັນນະເຂດ</option>
+              <option>ສາລະວັນ</option><option>ເຊກອງ</option><option>ຈຳປາສັກ</option>
+              <option>ອັດຕະປື</option><option>ຫຼວງພະບາງ</option><option>ຫຼວງນໍ້າທາ</option>
+              <option>ອຸດົມໄຊ</option><option>ບໍ່ແກ້ວ</option><option>ຜົ້ງສາລີ</option>
+              <option>ຫົວພັນ</option><option>ໄຊສົມບູນ</option><option>ໄຊຍະບູລີ</option>
+              <option>ຊຽງຂວາງ</option>
+            </select>
+            <div class="field-error" id="err-province">ກະລຸນາເລືອກແຂວງ</div>
+          </div>
+          <div class="field">
+            <label>ເມືອງ <span class="req">*</span></label>
+            <input type="text" id="c-district" placeholder="ໃສ່ຊື່ເມືອງ / ບ້ານ">
+            <div class="field-error" id="err-district">ກະລຸນາໃສ່ເມືອງ</div>
+          </div>
+          <div class="field">
+            <label>ລາຍລະອຽດ</label>
+            <input type="text" id="c-addr-detail" placeholder="ໝູ່ / ຖະໜົນ / ຈຸດໝາຍ">
+          </div>
+        </div>
+
+        <!-- Shipping -->
+        <div class="form-section">
+          <div class="form-section-title">🚚 ຂົນສົ່ງ <span class="req">*</span></div>
+          <div class="ship-opts">
+            <label class="ship-opt" onclick="selectShip(this,'ອານຸສິດ')"><input type="radio" name="ship" value="ອານຸສິດ"> ✈️ ອານຸສິດ</label>
+            <label class="ship-opt" onclick="selectShip(this,'ຮຸ່ງອາລຸນ')"><input type="radio" name="ship" value="ຮຸ່ງອາລຸນ"> 🚌 ຮຸ່ງອາລຸນ</label>
+            <label class="ship-opt" onclick="selectShip(this,'ມີໄຊ')"><input type="radio" name="ship" value="ມີໄຊ"> 🚚 ມີໄຊ</label>
+            <label class="ship-opt" onclick="selectShip(this,'ຢູ່ນິເທວ')"><input type="radio" name="ship" value="ຢູ່ນິເທວ"> 📦 ຢູ່ນິເທວ</label>
+          </div>
+          <div class="field-error" id="err-ship" style="margin-top:5px">ກະລຸນາເລືອກຂົນສົ່ງ</div>
+          <div class="field" style="margin-top:8px">
+            <label>ສາຂາ / ຈຸດຮັບ</label>
+            <input type="text" id="c-branch" placeholder="ລະບຸສາຂາ">
+          </div>
+        </div>
+
+        <!-- Payment -->
+        <div class="form-section">
+          <div class="form-section-title">💳 ຊຳລະ <span class="req">*</span></div>
+          <div class="pay-opts">
+            <label class="pay-opt" onclick="selectPay(this,'ໂອນຈ່າຍ')">
+              <input type="radio" name="pay" value="ໂອນຈ່າຍ">
+              <div class="pay-opt-icon">💳</div>
+              <div><div class="pay-opt-name">ໂອນຈ່າຍ</div><div class="pay-opt-desc">ສະແກນ QR · ໂອນກ່ອນສົ່ງ</div></div>
+            </label>
+            <label class="pay-opt" onclick="selectPay(this,'ເງີນສົດ')">
+              <input type="radio" name="pay" value="ເງີນສົດ">
+              <div class="pay-opt-icon">💵</div>
+              <div><div class="pay-opt-name">ເງີນສົດ (ຮັບຜ່ານສາຂາ)</div><div class="pay-opt-desc">ຈ່າຍສົດເວລາຮັບເຄື່ອງ</div></div>
+            </label>
+            <label class="pay-opt" onclick="selectPay(this,'ເກັບປາຍທາງ COD')">
+              <input type="radio" name="pay" value="ເກັບປາຍທາງ COD">
+              <div class="pay-opt-icon">📬</div>
+              <div><div class="pay-opt-name">ເກັບປາຍທາງ COD</div><div class="pay-opt-desc">ສະເພາະ ອານຸສິດ · ມັດຈຳ 15,000₭</div></div>
+            </label>
+          </div>
+          <div class="field-error" id="err-pay" style="margin-top:5px">ກະລຸນາເລືອກການຊຳລະ</div>
+
+          <!-- QR BOX -->
+          <div class="qr-pay-box" id="qr-pay-box">
+            <div class="qr-pay-title">📲 ສະແກນ QR ເພື່ອໂອນ (BCEL One / ທ/ຄ)</div>
+            <div class="qr-img-wrap">
+              <img class="qr-img" id="qr-img"
+                src="https://drive.google.com/uc?export=view&id=1uQMuG17oqaPiPDePA95-FngrMPJxA-JQ"
+                onerror="this.src='https://drive.google.com/thumbnail?id=1uQMuG17oqaPiPDePA95-FngrMPJxA-JQ&sz=w400'"
+                alt="QR Code">
+              <button class="qr-dl-btn" onclick="downloadQR()">⬇️ ດາວໂຫຼດ QR Code</button>
+            </div>
+          </div>
+
+          <!-- COD WARNING -->
+          <div class="cod-warning" id="cod-warning">
+            ⚠️ <strong>ເງື່ອນໄຂ COD:</strong><br>
+            • ສະເພາະ <strong>ຂົນສົ່ງ ອານຸສິດ</strong> ເທົ່ານັ້ນ<br>
+            • ກ່ອນຝາກ ຕ້ອງ <strong>ໂອນມັດຈຳ 15,000 ₭</strong> ກ່ອນ<br>
+            • ສະແກນ QR ຂ້ານເທີ່ງ ແລ້ວ ອັບໂຫຼດສະລິບ
+          </div>
+        </div>
+
+        <!-- Slip Upload -->
+        <div class="form-section" id="slip-section" style="display:none">
+          <div class="form-section-title">📸 ສະລິບໂອນ <span class="req">*</span></div>
+          <div class="file-upload-area" id="upload-area" onclick="triggerUpload()">
+            <div class="file-upload-icon">📸</div>
+            <div class="file-upload-text">
+              <strong>ກົດເພື່ອອັບໂຫຼດສະລິບ</strong><br>JPG, PNG ≤ 5MB
+            </div>
+            <input type="file" id="slip-file" accept="image/*" onchange="previewSlip(this)">
+          </div>
+          <div class="file-preview" id="slip-preview">
+            <img id="slip-preview-img" src="" alt="Slip">
+            <button class="file-remove" onclick="removeSlip()">✕</button>
+          </div>
+          <div class="field-error" id="err-slip">ກະລຸນາອັບໂຫຼດສະລິບ</div>
+        </div>
+
+        <!-- Note -->
+        <div class="form-section">
+          <div class="form-section-title">📝 ໝາຍເຫດ</div>
+          <div class="field">
+            <textarea id="c-note" rows="2" placeholder="ຂໍ້ຄວາມເພີ່ມເຕີມ..."></textarea>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /right-panel -->
+  </div>
+</main>
+
+<!-- ─── SUBMIT BAR ─────────────────────────── -->
+<div class="submit-bar">
+  <button class="submit-btn" id="submit-btn" onclick="submitOrder()">✅ ຢືນຢັນການສັ່ງຊື້</button>
+</div>
+
+<!-- ─── LOADING ─────────────────────────────── -->
+<div class="loading-overlay" id="loading">
+  <div class="spinner"></div>
+  <div class="loading-text">ກຳລັງສົ່ງຄຳສັ່ງ...</div>
+</div>
+
+<!-- ─── SUCCESS MODAL ──────────────────────── -->
+<div class="modal-overlay" id="success-modal">
+  <div class="modal-box" id="bill-box">
+    <div class="success-icon">🎉</div>
+    <div class="success-title">ສັ່ງຊື້ສຳເລັດ!</div>
+    <div class="success-code-box" id="success-code">—</div>
+    <div class="success-bill" id="success-bill"></div>
+    <div class="success-pay-msg" id="success-pay-msg"></div>
+    <div class="success-tip">
+      📸 <strong>ກະລຸນາບັນທຶກບິນນີ້ໄວ້!</strong><br>
+      ດາວໂຫຼດຮູບບິນ ຫຼື ແຄບຈໍໄວ້ຢືນຢັນ.<br>
+      ຫາກຍັງບໍ່ຖືກກວດສອບ ສົ່ງໃຫ້ແມ່ຄ້າໄດ້ທີ່:<br>
+      <a href="https://wa.link/3c7y89" target="_blank" class="wa-btn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp 020 92833416
+      </a>
+    </div>
+    <div class="success-actions">
+      <button class="success-dl-btn" onclick="downloadBill()">⬇️ ດາວໂຫຼດໃບບິນ</button>
+      <button class="success-new-btn" onclick="resetAll()">🛒 ສັ່ງຊື້ໃໝ່</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── ADMIN MODAL ─────────────────────────── -->
+<div class="admin-modal" id="admin-modal">
+  <div class="admin-box">
+    <div class="admin-header">
+      <h2>🔐 Admin Panel — SOUDSADA SHOP</h2>
+      <button class="admin-close" onclick="closeAdmin()">✕ ປິດ</button>
+    </div>
+    <!-- Login -->
+    <div id="admin-login-box" class="admin-login-box">
+      <h3>🔑 ໃສ່ລະຫັດຜ່ານ Admin</h3>
+      <input class="admin-login-inp" type="password" id="admin-pw" placeholder="ລະຫັດຜ່ານ"
+        onkeydown="if(event.key==='Enter')adminLogin()">
+      <div style="margin-bottom:6px"></div>
+      <button class="admin-login-btn" onclick="adminLogin()">🔓 ເຂົ້າລະບົບ</button>
+      <div id="admin-login-err" style="color:var(--red);font-size:11px;margin-top:8px;display:none">❌ ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ</div>
+    </div>
+    <!-- Dashboard -->
+    <div id="admin-dashboard" style="display:none">
+      <div class="admin-content">
+        <div class="admin-stat" id="admin-stat"></div>
+        <div class="admin-tabs">
+          <button class="admin-tab active" onclick="adminTab('orders',this)">📋 ລາຍການທັງໝົດ</button>
+          <button class="admin-tab" onclick="adminTab('waiting',this)">⏳ ລໍຖ້າ</button>
+          <button class="admin-tab" onclick="adminTab('shipped',this)">✅ ສົ່ງແລ້ວ</button>
+        </div>
+        <div class="admin-filter">
+          <input class="admin-filter-inp" id="admin-search" type="text" placeholder="ຄົ້ນຫາ ຊື່/ເລກບິນ/ເບີ..." oninput="adminRenderOrders()">
+          <button class="admin-refresh-btn" onclick="adminLoadOrders()">🔄 ໂຫຼດໃໝ່</button>
+        </div>
+        <div class="orders-table-wrap">
+          <table class="orders-table" id="orders-table">
+            <thead>
+              <tr>
+                <th>ລະຫັດ</th><th>ຊື່ / ເບີ</th><th>ສິນຄ້າ</th>
+                <th>ລວມ</th><th>ຂົນສົ່ງ</th><th>ຊຳລະ</th>
+                <th>ສະລິບ</th><th>ສະຖານະ</th><th>ວັນທີ</th>
+              </tr>
+            </thead>
+            <tbody id="orders-tbody">
+              <tr><td colspan="9" style="text-align:center;padding:20px;color:var(--muted)">⏳ ກຳລັງໂຫຼດ...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slip fullscreen view -->
+<div class="slip-modal" id="slip-modal" onclick="closeSlipModal()">
+  <button class="slip-modal-close" onclick="closeSlipModal()">✕</button>
+  <img id="slip-modal-img" src="" alt="Slip">
+</div>
+
+<!-- Hidden canvas for bill download -->
+<canvas id="bill-canvas"></canvas>
+
+<script>
+// ══════════════════════════════════════════════
+//  CONFIGURATION
+// ══════════════════════════════════════════════
+var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwYP0bCa0PubM1Taf5btkBPD7lgo0MpQnWzntWGc4KP9HZrlWBvIWM0j2EhAat9707Gvg/exec';
+var ADMIN_PASSWORD = 'soudsada2025'; // ← ປ່ຽນລະຫັດຜ່ານໄດ້ທີ່ນີ້
+var QR_IMG_URL = 'https://drive.google.com/uc?export=view&id=1uQMuG17oqaPiPDePA95-FngrMPJxA-JQ';
+
+// ══════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════
+var allProds = [], cart = [], selectedProd = null;
+var slipBase64 = '', selectedShip = '', selectedPay = '';
+var adminOrders = [], adminTabFilter = 'orders', adminLoggedIn = false;
+
+var noImg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%23f3f4f6'/%3E%3Ctext x='50%25' y='56%25' text-anchor='middle' fill='%23d1d5db' font-size='28'%3E📦%3C/text%3E%3C/svg%3E";
+
+// ══════════════════════════════════════════════
+//  STATUS CHECKER
+// ══════════════════════════════════════════════
+var STATUS_STEPS = [
+  {key:'ລໍຖ້າຮັບຍອດ',      icon:'⏳',lbl:'ລໍຖ້າ\nຮັບຍອດ',    cls:'badge-waiting'},
+  {key:'ແມ່ຄ້າຮັບຍອດແລ້ວ', icon:'✅',lbl:'ຮັບຍອດ\nແລ້ວ',      cls:'badge-accepted'},
+  {key:'ກຳລັງກຽມການຈັດສົ່ງ',icon:'📦',lbl:'ກຽມ\nຈັດສົ່ງ',    cls:'badge-packing'},
+  {key:'ຈັດສົ່ງສຳເລັດ',    icon:'🎉',lbl:'ສົ່ງ\nສຳເລັດ',      cls:'badge-shipped'}
+];
+
+function checkStatus(){
+  var code = document.getElementById('track-code-inp').value.trim().toUpperCase();
+  if(!code){alert('ກະລຸນາໃສ່ເລກບິນ');return;}
+  var el = document.getElementById('status-result-strip');
+  el.classList.add('show');
+  el.innerHTML = '<div class="status-box"><div class="status-not-found">⏳ ກຳລັງກວດສອບ...</div></div>';
+  var url = SCRIPT_URL+'?action=getOrderStatus&code='+encodeURIComponent(code);
+  fetch(url).then(function(r){return r.json();}).then(function(d){
+    if(!d||d.status==='not_found'){
+      el.innerHTML='<div class="status-box"><div class="status-not-found">❌ ບໍ່ພົບເລກບິນ <strong>'+code+'</strong></div></div>';
+      return;
+    }
+    renderStatusResult(d);
+  }).catch(function(){
+    el.innerHTML='<div class="status-box"><div class="status-not-found">⚠️ ກວດສອບບໍ່ໄດ້ ກະລຸນາລອງໃໝ່</div></div>';
+  });
+}
+
+function renderStatusResult(d){
+  var el = document.getElementById('status-result-strip');
+  var currentStatus = d.orderStatus||'ລໍຖ້າຮັບຍອດ';
+  var stepIdx = STATUS_STEPS.findIndex(function(s){return s.key===currentStatus;});
+  if(stepIdx<0)stepIdx=0;
+  var step = STATUS_STEPS[stepIdx];
+  var pct = stepIdx===0?0:(stepIdx/(STATUS_STEPS.length-1))*100;
+  var stepsHtml = STATUS_STEPS.map(function(s,i){
+    var cls=i<stepIdx?'done':i===stepIdx?'active':'';
+    return '<div class="step-item '+cls+'"><div class="step-dot '+cls+'">'+s.icon+'</div><div class="step-lbl">'+s.lbl.replace('\n','<br>')+'</div></div>';
+  }).join('');
+  var rows=[['📦','ລະຫັດ',d.code],['👤','ຊື່',d.customerName],['📱','ເບີ',d.customerPhone],
+    ['🚚','ຂົນສົ່ງ',d.shipping],['💳','ຊຳລະ',d.payment],
+    ['💰','ລວມ',Number(d.totalAmount||0).toLocaleString()+' ₭'],['📅','ວັນທີ',d.submittedAt||'']
+  ].filter(function(r){return r[2];}).map(function(r){
+    return '<div class="status-info-row"><span class="sil">'+r[0]+' '+r[1]+'</span><span class="siv">'+r[2]+'</span></div>';
+  }).join('');
+  el.innerHTML='<div class="status-box">'
+    +'<div class="status-box-header"><span class="status-code-lbl">📦 '+d.code+'</span>'
+    +'<span class="status-badge '+step.cls+'">'+step.icon+' '+step.key+'</span></div>'
+    +'<div class="status-box-body">'
+    +'<div class="step-tracker"><div class="step-progress" style="width:calc('+pct+'% - 24px)"></div>'+stepsHtml+'</div>'
+    +rows+'</div></div>';
+}
+
+// ══════════════════════════════════════════════
+//  LOAD PRODUCTS
+// ══════════════════════════════════════════════
+function loadProducts(){
+  if(typeof google!=='undefined'&&google.script&&google.script.run){
+    google.script.run.withSuccessHandler(function(d){allProds=d||[];renderProds(allProds);})
+      .withFailureHandler(function(){loadProductsFetch();}).getPublicProducts();
+    return;
+  }
+  loadProductsFetch();
+}
+
+function loadProductsFetch(){
+  fetch(SCRIPT_URL+'?action=getProducts')
+    .then(function(r){return r.json();})
+    .then(function(d){allProds=Array.isArray(d)?d:[];renderProds(allProds);})
+    .catch(function(){showLoadError();});
+}
+
+function showLoadError(){
+  document.getElementById('prod-grid').innerHTML=
+    '<div class="empty-state"><div class="eicon">❌</div><div>ໂຫຼດສິນຄ້າບໍ່ສຳເລັດ</div>'
+    +'<button onclick="loadProducts()" style="margin-top:8px;padding:6px 14px;background:var(--green);color:#fff;border:none;border-radius:7px;font-size:11px;cursor:pointer">🔄 ລອງໃໝ່</button></div>';
+}
+
+function filterProds(){
+  var q=document.getElementById('search-inp').value.toLowerCase().trim();
+  var f=q?allProds.filter(function(r){return(r[0]||'').toLowerCase().includes(q);}):allProds;
+  renderProds(f);
+}
+
+function fN(n){return Number(n||0).toLocaleString();}
+
+function convertGD(url){
+  if(!url||!url.trim())return'';
+  url=url.trim();
+  if(url.includes('drive.google.com/uc')||url.includes('thumbnail'))return url;
+  var m=url.match(/\/d\/([a-zA-Z0-9_-]{10,})/);
+  if(m)return'https://drive.google.com/thumbnail?id='+m[1]+'&sz=w300';
+  var m2=url.match(/[?&]id=([a-zA-Z0-9_-]{10,})/);
+  if(m2)return'https://drive.google.com/thumbnail?id='+m2[1]+'&sz=w300';
+  return url;
+}
+
+function renderProds(prods){
+  var grid=document.getElementById('prod-grid');
+  document.getElementById('prod-count-lbl').textContent=prods.length?prods.length+' ລາຍການ':'';
+  if(!prods.length){
+    grid.innerHTML='<div class="empty-state"><div class="eicon">🔍</div><div>ບໍ່ພົບສິນຄ້າ</div></div>';
+    return;
+  }
+  var html='';
+  prods.forEach(function(r){
+    var name=r[0],price=Number(r[2])||0,qty=Number(r[3])||0,img=r[4]?convertGD(r[4]):'';
+    var bc=qty<=0?'badge-out':qty<=5?'badge-low':'badge-ok';
+    var bt=qty<=0?'🚨 ໝົດ':qty<=5?'⚠️ '+qty+' ຊີ້ນ':'✅ '+qty+' ຊີ້ນ';
+    var sn=name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    var isSel=selectedProd&&selectedProd[0]===name;
+    html+='<div class="prod-card'+(qty<=0?' out':'')+(isSel?' selected':'')+'" onclick="'+(qty<=0?'':'selectProd(\''+sn+'\')')+'">'
+      +'<div class="check-overlay">✓</div>'
+      +'<div class="prod-thumb-wrap"><img class="prod-thumb" src="'+(img||noImg)+'" alt="'+name+'" loading="lazy" onerror="this.src=\''+noImg+'\'"></div>'
+      +'<div class="prod-info"><div class="prod-name">'+name+'</div>'
+      +'<div class="prod-price">'+fN(price)+' ₭</div>'
+      +'<span class="prod-stock-badge '+bc+'">'+bt+'</span></div></div>';
+  });
+  grid.innerHTML=html;
+}
+
+// ══════════════════════════════════════════════
+//  SELECT / CART
+// ══════════════════════════════════════════════
+function selectProd(name){
+  var prod=allProds.find(function(r){return r[0]===name;});
+  if(!prod||Number(prod[3])<=0)return;
+  if(selectedProd&&selectedProd[0]===name){
+    selectedProd=null;document.getElementById('qty-panel').classList.remove('open');
+    filterProds();return;
+  }
+  selectedProd=prod;filterProds();
+  document.getElementById('qty-name').textContent='🛍️ '+name;
+  document.getElementById('qty-stock').textContent='ຄົງເຫຼືອ: '+prod[3]+' ຊີ້ນ';
+  document.getElementById('qty-num').value=1;
+  document.getElementById('qty-num').max=prod[3];
+  document.getElementById('qty-panel').classList.add('open');
+  // scroll ໄປດ້ານເທີ່ງ right panel ທີ່ qty-panel ຢູ່
+  var qtyEl = document.getElementById('qty-panel');
+  qtyEl.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function changeQty(d){
+  var inp=document.getElementById('qty-num');
+  var max=selectedProd?Number(selectedProd[3]):99;
+  inp.value=Math.max(1,Math.min(max,(parseInt(inp.value)||1)+d));
+}
+
+function addToCart(){
+  if(!selectedProd)return;
+  var qty=Math.max(1,Math.min(Number(selectedProd[3]),parseInt(document.getElementById('qty-num').value)||1));
+  var ex=cart.find(function(c){return c.name===selectedProd[0];});
+  if(ex)ex.qty=Math.min(Number(selectedProd[3]),ex.qty+qty);
+  else cart.push({name:selectedProd[0],price:Number(selectedProd[2]),qty:qty,max:Number(selectedProd[3])});
+  selectedProd=null;
+  document.getElementById('qty-panel').classList.remove('open');
+  filterProds();renderCart();
+}
+
+function renderCart(){
+  var countEl=document.getElementById('cart-count');
+  var totalEl=document.getElementById('cart-total');
+  var itemsEl=document.getElementById('cart-items');
+  var total=cart.reduce(function(s,c){return s+c.price*c.qty;},0);
+  countEl.textContent=cart.reduce(function(s,c){return s+c.qty;},0);
+  totalEl.textContent=fN(total)+' ₭';
+  if(!cart.length){
+    itemsEl.innerHTML='<div class="cart-empty">📦 ຍັງບໍ່ທັນເລືອກສິນຄ້າ<br><small>ເລືອກສິນຄ້າຈາກດ້ານຊ້າຍ</small></div>';
+    return;
+  }
+  var html='';
+  cart.forEach(function(item,i){
+    var sub=item.price*item.qty;
+    html+='<div class="cart-item"><div><div class="cart-item-name">'+item.name+'</div>'
+      +'<div class="cart-item-detail">'+fN(item.price)+' ₭ × '+item.qty+'</div></div>'
+      +'<div class="cart-item-right"><div class="cart-item-price">'+fN(sub)+' ₭</div>'
+      +'<button class="cart-remove" onclick="removeFromCart('+i+')">✕ ລຶບ</button></div></div>';
+  });
+  itemsEl.innerHTML=html;
+}
+
+function removeFromCart(i){cart.splice(i,1);renderCart();}
+function clearCart(){cart=[];renderCart();}
+function scrollToCart(){document.getElementById('right-panel').scrollIntoView({behavior:'smooth'});}
+
+// ══════════════════════════════════════════════
+//  SHIP / PAY
+// ══════════════════════════════════════════════
+function selectShip(el,val){
+  document.querySelectorAll('.ship-opt').forEach(function(o){o.classList.remove('active');});
+  el.classList.add('active');selectedShip=val;updatePayState();
+}
+
+function selectPay(el,val){
+  document.querySelectorAll('.pay-opt').forEach(function(o){o.classList.remove('active');});
+  el.classList.add('active');selectedPay=val;updatePayState();
+}
+
+function updatePayState(){
+  var isCOD=selectedPay==='ເກັບປາຍທາງ COD';
+  var isTransfer=selectedPay==='ໂອນຈ່າຍ';
+  var showQR=isCOD||isTransfer;
+  document.getElementById('qr-pay-box').classList.toggle('show',showQR);
+  document.getElementById('cod-warning').classList.toggle('show',isCOD);
+  document.getElementById('slip-section').style.display=showQR?'block':'none';
+  if(isCOD&&selectedShip!=='ອານຸສິດ'){
+    document.querySelectorAll('.ship-opt').forEach(function(o){o.classList.remove('active');});
+    var first=document.querySelector('.ship-opt');
+    if(first)first.classList.add('active');
+    selectedShip='ອານຸສິດ';
+  }
+}
+
+// ══════════════════════════════════════════════
+//  QR DOWNLOAD
+// ══════════════════════════════════════════════
+function downloadQR(){
+  var img=document.getElementById('qr-img');
+  var canvas=document.createElement('canvas');
+  canvas.width=img.naturalWidth||400;canvas.height=img.naturalHeight||400;
+  var ctx=canvas.getContext('2d');
+  try{
+    ctx.drawImage(img,0,0);
+    var a=document.createElement('a');
+    a.href=canvas.toDataURL('image/png');
+    a.download='SOUDSADA_QR_Code.png';a.click();
+  }catch(e){
+    // CORS fallback: open in new tab
+    window.open(QR_IMG_URL,'_blank');
+  }
+}
+
+// ══════════════════════════════════════════════
+//  FILE UPLOAD
+// ══════════════════════════════════════════════
+function triggerUpload(){document.getElementById('slip-file').click();}
+
+function previewSlip(input){
+  var file=input.files[0];if(!file)return;
+  if(file.size>5*1024*1024){alert('ຮູບໃຫຍ່ເກີນໄປ (≤ 5MB)');return;}
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var img=new Image();
+    img.onload=function(){
+      var canvas=document.createElement('canvas');
+      var maxW=800,maxH=800,w=img.width,h=img.height;
+      if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}
+      if(h>maxH){w=Math.round(w*maxH/h);h=maxH;}
+      canvas.width=w;canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      slipBase64=canvas.toDataURL('image/jpeg',0.75);
+      document.getElementById('slip-preview-img').src=slipBase64;
+      document.getElementById('slip-preview').style.display='block';
+      document.getElementById('err-slip').classList.remove('show');
+    };
+    img.src=e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeSlip(){
+  slipBase64='';document.getElementById('slip-file').value='';
+  document.getElementById('slip-preview').style.display='none';
+}
+
+(function(){
+  var area=document.getElementById('upload-area');
+  if(!area)return;
+  area.addEventListener('dragover',function(e){e.preventDefault();area.classList.add('dragover');});
+  area.addEventListener('dragleave',function(){area.classList.remove('dragover');});
+  area.addEventListener('drop',function(e){
+    e.preventDefault();area.classList.remove('dragover');
+    var files=e.dataTransfer.files;
+    if(files.length){document.getElementById('slip-file').files=files;previewSlip({files:files});}
+  });
+})();
+
+// ══════════════════════════════════════════════
+//  VALIDATION
+// ══════════════════════════════════════════════
+function showErr(id,show){var el=document.getElementById(id);if(el)show?el.classList.add('show'):el.classList.remove('show');}
+function markField(id,inv){var el=document.getElementById(id);if(el)inv?el.classList.add('invalid'):el.classList.remove('invalid');}
+
+function validate(){
+  var ok=true;
+  if(!cart.length){alert('⚠️ ກະລຸນາເລືອກສິນຄ້າກ່ອນ!');return false;}
+  var name=document.getElementById('c-name').value.trim();
+  showErr('err-name',!name);markField('c-name',!name);if(!name)ok=false;
+  var phone=document.getElementById('c-phone').value.trim();
+  showErr('err-phone',!phone);markField('c-phone',!phone);if(!phone)ok=false;
+  var prov=document.getElementById('c-province').value;
+  showErr('err-province',!prov);markField('c-province',!prov);if(!prov)ok=false;
+  var dist=document.getElementById('c-district').value.trim();
+  showErr('err-district',!dist);markField('c-district',!dist);if(!dist)ok=false;
+  showErr('err-ship',!selectedShip);if(!selectedShip)ok=false;
+  showErr('err-pay',!selectedPay);if(!selectedPay)ok=false;
+  if(selectedPay==='ເກັບປາຍທາງ COD'&&selectedShip!=='ອານຸສິດ'){
+    alert('⚠️ COD ໃຊ້ໄດ້ສະເພາະ ຂົນສົ່ງ ອານຸສິດ!');ok=false;
+  }
+  var slipReq=selectedPay==='ເກັບປາຍທາງ COD'||selectedPay==='ໂອນຈ່າຍ';
+  if(slipReq&&!slipBase64){showErr('err-slip',true);ok=false;}else showErr('err-slip',false);
+  return ok;
+}
+
+// ══════════════════════════════════════════════
+//  SUBMIT
+// ══════════════════════════════════════════════
+function getOrderCode(phone){
+  var p=String(phone||'').replace(/\D/g,'');
+  var last4=p.length>=4?p.slice(-4):p.padStart(4,'0');
+  return 'P'+last4+'-'+Date.now().toString().slice(-4);
+}
+
+function submitOrder(){
+  if(!validate())return;
+  var name=document.getElementById('c-name').value.trim();
+  var phone=document.getElementById('c-phone').value.trim();
+  var prov=document.getElementById('c-province').value;
+  var dist=document.getElementById('c-district').value.trim();
+  var addrD=document.getElementById('c-addr-detail').value.trim();
+  var branch=document.getElementById('c-branch').value.trim();
+  var note=document.getElementById('c-note').value.trim();
+  var code=getOrderCode(phone);
+  var total=cart.reduce(function(s,c){return s+c.price*c.qty;},0);
+  var addr=[prov,dist,addrD].filter(Boolean).join(' - ');
+  var shipping=[selectedShip,branch].filter(Boolean).join(': ');
+
+  var orderData={
+    code:code,customerName:name,customerPhone:phone,customerAddr:addr,
+    shipping:shipping,payment:selectedPay,note:note,cart:cart,
+    totalAmount:total,slipBase64:slipBase64,submittedAt:new Date().toISOString()
+  };
+
+  document.getElementById('loading').classList.add('show');
+
+  var doSubmit=function(){
+    if(typeof google!=='undefined'&&google.script&&google.script.run){
+      google.script.run
+        .withSuccessHandler(function(res){
+          document.getElementById('loading').classList.remove('show');
+          if(res&&(res.status==='ok'||res.success))showSuccess(code,total,name,phone,shipping);
+          else alert('❌ '+(res&&res.message?res.message:'Error'));
+        })
+        .withFailureHandler(function(err){
+          document.getElementById('loading').classList.remove('show');
+          alert('❌ '+err.message);
+        })
+        .submitCustomerOrderFromClient(orderData);
+    } else {
+      fetch(SCRIPT_URL,{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({action:'submitCustomerOrder',data:orderData})
+      }).then(function(r){return r.json();})
+        .then(function(res){
+          document.getElementById('loading').classList.remove('show');
+          if(res.status==='ok'||res.success)showSuccess(code,total,name,phone,shipping);
+          else alert('❌ '+(res.message||'Error'));
+        }).catch(function(){
+          document.getElementById('loading').classList.remove('show');
+          alert('❌ ສົ່ງບໍ່ສຳເລັດ ກະລຸນາລອງໃໝ່');
+        });
+    }
+  };
+  doSubmit();
+}
+
+// ══════════════════════════════════════════════
+//  SUCCESS + BILL DOWNLOAD
+// ══════════════════════════════════════════════
+var lastOrderData = {};
+
+function showSuccess(code,total,name,phone,shipping){
+  lastOrderData={code:code,total:total,name:name,phone:phone,shipping:shipping,
+    payment:selectedPay,cart:JSON.parse(JSON.stringify(cart)),note:document.getElementById('c-note').value.trim()};
+  document.getElementById('success-code').textContent='📦 ລະຫັດ: '+code;
+  var html='';
+  cart.forEach(function(item){
+    html+='<div class="success-bill-row"><span class="sbl">'+item.name+' ×'+item.qty+'</span>'
+      +'<span class="sbv">'+fN(item.price*item.qty)+' ₭</span></div>';
+  });
+  html+='<div class="success-bill-row"><span class="sbl">👤 ຊື່</span><span class="sbv">'+name+' | '+phone+'</span></div>';
+  html+='<div class="success-bill-row"><span class="sbl">🚚 ຂົນສົ່ງ</span><span class="sbv">'+shipping+'</span></div>';
+  html+='<div class="success-bill-row"><span class="sbl">💳 ຊຳລະ</span><span class="sbv">'+selectedPay+'</span></div>';
+  html+='<div class="success-bill-total"><span>ລວມທັງໝົດ</span><span>'+fN(total)+' ₭</span></div>';
+  document.getElementById('success-bill').innerHTML=html;
+  var payMsg=selectedPay==='ເກັບປາຍທາງ COD'?'⚠️ ໂອນມັດຈຳ 15,000₭ ກ່ອນ!'
+    :selectedPay==='ໂອນຈ່າຍ'?'💳 ທາງຮ້ານຈະກວດສອບ ແລ້ວຈັດສົ່ງ':'💵 ຈ່າຍເວລາຮັບເຄື່ອງ';
+  document.getElementById('success-pay-msg').textContent=payMsg;
+  document.getElementById('success-modal').classList.add('show');
+}
+
+function downloadBill(){
+  var d=lastOrderData;
+  var canvas=document.getElementById('bill-canvas');
+  var W=560,lineH=22,pad=24;
+  // calc height
+  var rows=d.cart.length+6;
+  var H=pad*2+80+rows*lineH+60;
+  canvas.width=W;canvas.height=H;
+  var ctx=canvas.getContext('2d');
+  // bg
+  ctx.fillStyle='#F0F4F8';ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='#ffffff';ctx.beginPath();
+  ctx.roundRect(12,12,W-24,H-24,12);ctx.fill();
+  // header
+  ctx.fillStyle='#1B5E3A';ctx.fillRect(12,12,W-24,60);
+  ctx.fillStyle='#ffffff';ctx.font='bold 18px sans-serif';
+  ctx.textAlign='center';ctx.fillText('SOUDSADA SHOP',W/2,40);
+  ctx.font='11px sans-serif';ctx.fillText('ໃບບິນສັ່ງຊື້',W/2,60);
+  // code
+  ctx.fillStyle='#2D7A55';ctx.font='bold 14px sans-serif';
+  ctx.textAlign='center';ctx.fillText('ລະຫັດ: '+d.code,W/2,100);
+  // items
+  var y=120;
+  ctx.fillStyle='#1A1A2E';ctx.textAlign='left';ctx.font='11px sans-serif';
+  // divider
+  ctx.strokeStyle='#E2E8F0';ctx.setLineDash([4,3]);
+  ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(W-pad,y);ctx.stroke();
+  ctx.setLineDash([]);
+  y+=lineH;
+  d.cart.forEach(function(item){
+    ctx.font='12px sans-serif';ctx.fillStyle='#1A1A2E';
+    ctx.fillText(item.name+' ×'+item.qty,pad,y);
+    ctx.textAlign='right';
+    ctx.fillText(fN(item.price*item.qty)+' ₭',W-pad,y);
+    ctx.textAlign='left';y+=lineH;
+  });
+  // info rows
+  [['👤 ຊື່',d.name+' | '+d.phone],['🚚 ຂົນສົ່ງ',d.shipping],['💳 ຊຳລະ',d.payment]].forEach(function(r){
+    ctx.font='11px sans-serif';ctx.fillStyle='#6B7280';
+    ctx.fillText(r[0],pad,y);ctx.fillStyle='#1A1A2E';
+    ctx.textAlign='right';ctx.fillText(r[1],W-pad,y);ctx.textAlign='left';y+=lineH;
+  });
+  // total
+  ctx.strokeStyle='#2D7A55';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(W-pad,y);ctx.stroke();
+  y+=18;
+  ctx.font='bold 15px sans-serif';ctx.fillStyle='#2D7A55';
+  ctx.fillText('ລວມທັງໝົດ',pad,y);
+  ctx.textAlign='right';ctx.fillText(fN(d.total)+' ₭',W-pad,y);
+  ctx.textAlign='center';
+  // footer
+  y+=30;
+  ctx.font='10px sans-serif';ctx.fillStyle='#6B7280';
+  ctx.fillText('ຂອບໃຈທີ່ສັ່ງຊື້ · SOUDSADA SHOP · WhatsApp 020 92833416',W/2,y);
+  // download
+  var a=document.createElement('a');
+  a.href=canvas.toDataURL('image/png');
+  a.download='SOUDSADA_Bill_'+d.code+'.png';a.click();
+}
+
+// ══════════════════════════════════════════════
+//  RESET
+// ══════════════════════════════════════════════
+function resetAll(){
+  cart=[];selectedProd=null;selectedShip='';selectedPay='';slipBase64='';
+  ['c-name','c-phone','c-addr-detail','c-branch','c-note'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.value='';
+  });
+  document.getElementById('c-province').value='';
+  document.getElementById('c-district').value='';
+  document.querySelectorAll('.ship-opt').forEach(function(o){o.classList.remove('active');});
+  document.querySelectorAll('.pay-opt').forEach(function(o){o.classList.remove('active');});
+  document.getElementById('cod-warning').classList.remove('show');
+  document.getElementById('qr-pay-box').classList.remove('show');
+  document.getElementById('slip-section').style.display='none';
+  removeSlip();renderCart();filterProds();
+  document.getElementById('success-modal').classList.remove('show');
+  document.getElementById('qty-panel').classList.remove('open');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ══════════════════════════════════════════════
+//  ADMIN
+// ══════════════════════════════════════════════
+function openAdmin(){
+  document.getElementById('admin-modal').classList.add('show');
+  if(!adminLoggedIn)document.getElementById('admin-pw').focus();
+}
+function closeAdmin(){document.getElementById('admin-modal').classList.remove('show');}
+
+function adminLogin(){
+  var pw=document.getElementById('admin-pw').value;
+  if(pw===ADMIN_PASSWORD){
+    adminLoggedIn=true;
+    document.getElementById('admin-login-box').style.display='none';
+    document.getElementById('admin-dashboard').style.display='block';
+    document.getElementById('admin-login-err').style.display='none';
+    adminLoadOrders();
+  } else {
+    document.getElementById('admin-login-err').style.display='block';
+    document.getElementById('admin-pw').value='';
+  }
+}
+
+function adminTab(tab,el){
+  adminTabFilter=tab;
+  document.querySelectorAll('.admin-tab').forEach(function(t){t.classList.remove('active');});
+  el.classList.add('active');
+  adminRenderOrders();
+}
+
+function adminLoadOrders(){
+  var tbody=document.getElementById('orders-tbody');
+  tbody.innerHTML='<tr><td colspan="9" style="text-align:center;padding:20px;color:var(--muted)">⏳ ກຳລັງໂຫຼດ...</td></tr>';
+
+  var doLoad=function(){
+    if(typeof google!=='undefined'&&google.script&&google.script.run){
+      google.script.run.withSuccessHandler(function(d){adminOrders=d||[];adminRenderOrders();adminRenderStats();})
+        .withFailureHandler(function(){adminLoadFetch();}).getAllOrdersForAdmin();
+    } else adminLoadFetch();
+  };
+
+  var adminLoadFetch=function(){
+    fetch(SCRIPT_URL+'?action=getAllOrders').then(function(r){return r.json();})
+      .then(function(d){adminOrders=Array.isArray(d)?d:[];adminRenderOrders();adminRenderStats();})
+      .catch(function(){tbody.innerHTML='<tr><td colspan="9" style="text-align:center;padding:20px;color:var(--red)">❌ ໂຫຼດບໍ່ໄດ້</td></tr>';});
+  };
+  doLoad();
+}
+
+function adminRenderStats(){
+  var total=adminOrders.length;
+  var waiting=adminOrders.filter(function(o){return o.orderStatus==='ລໍຖ້າຮັບຍອດ';}).length;
+  var shipped=adminOrders.filter(function(o){return o.orderStatus==='ຈັດສົ່ງສຳເລັດ';}).length;
+  var revenue=adminOrders.reduce(function(s,o){return s+(Number(o.totalAmount)||0);},0);
+  document.getElementById('admin-stat').innerHTML=
+    '<div class="stat-card"><div class="stat-num">'+total+'</div><div class="stat-lbl">ທັງໝົດ</div></div>'
+    +'<div class="stat-card"><div class="stat-num">'+waiting+'</div><div class="stat-lbl">ລໍຖ້າ</div></div>'
+    +'<div class="stat-card"><div class="stat-num">'+shipped+'</div><div class="stat-lbl">ສົ່ງແລ້ວ</div></div>'
+    +'<div class="stat-card"><div class="stat-num">'+fN(revenue)+'</div><div class="stat-lbl">ລາຍຮັບ (₭)</div></div>';
+}
+
+function adminRenderOrders(){
+  var q=(document.getElementById('admin-search')||{}).value||'';
+  q=q.toLowerCase().trim();
+  var filtered=adminOrders.filter(function(o){
+    if(adminTabFilter==='waiting')return o.orderStatus==='ລໍຖ້າຮັບຍອດ';
+    if(adminTabFilter==='shipped')return o.orderStatus==='ຈັດສົ່ງສຳເລັດ';
+    return true;
+  }).filter(function(o){
+    if(!q)return true;
+    return (o.code||'').toLowerCase().includes(q)||(o.customerName||'').toLowerCase().includes(q)
+      ||(o.customerPhone||'').includes(q);
+  });
+
+  if(!filtered.length){
+    document.getElementById('orders-tbody').innerHTML='<tr><td colspan="9" style="text-align:center;padding:20px;color:var(--muted)">ບໍ່ພົບລາຍການ</td></tr>';
+    return;
+  }
+
+  var statuses=['ລໍຖ້າຮັບຍອດ','ແມ່ຄ້າຮັບຍອດແລ້ວ','ກຳລັງກຽມການຈັດສົ່ງ','ຈັດສົ່ງສຳເລັດ'];
+  var html='';
+  filtered.slice().reverse().forEach(function(o,idx){
+    var realIdx=adminOrders.length-1-idx;
+    var opts=statuses.map(function(s){
+      return '<option value="'+s+'"'+(o.orderStatus===s?' selected':'')+'>'+s+'</option>';
+    }).join('');
+    var slipHtml='❌ ບໍ່ມີ';
+    if(o.slipUrl){
+      slipHtml='<img class="slip-thumb" src="'+o.slipUrl.replace('/view','').replace('file/d/','uc?export=view&id=')+'" onerror="this.style.display=\'none\'" onclick="viewSlip(\''+o.slipUrl+'\')" alt="slip">'
+        +'<button class="slip-view-btn" onclick="viewSlip(\''+o.slipUrl+'\')">ເບີ່ງ / ດາວໂຫຼດ</button>';
+    } else if(o.slipStatus){slipHtml='<span style="color:var(--green);font-size:10px">'+o.slipStatus+'</span>';}
+    html+='<tr>'
+      +'<td><span class="order-code">'+o.code+'</span><br><span style="font-size:9px;color:var(--muted)">'+o.submittedAt+'</span></td>'
+      +'<td><div style="font-weight:700;font-size:11px">'+o.customerName+'</div><div style="font-size:10px;color:var(--muted)">'+o.customerPhone+'</div><div style="font-size:9px;color:var(--muted)">'+o.customerAddr+'</div></td>'
+      +'<td style="font-size:10px;max-width:140px">'+o.itemsSummary.replace(/\n/g,'<br>')+'</td>'
+      +'<td style="font-weight:800;color:var(--green);font-size:11px">'+fN(o.totalAmount)+' ₭</td>'
+      +'<td style="font-size:10px">'+o.shipping+'</td>'
+      +'<td style="font-size:10px">'+o.payment+'</td>'
+      +'<td>'+slipHtml+'</td>'
+      +'<td><select class="order-status-sel" onchange="updateOrderStatus(\''+o.code+'\',this.value)">'+opts+'</select></td>'
+      +'<td style="font-size:10px;white-space:nowrap">'+o.submittedAt+'</td>'
+      +'</tr>';
+  });
+  document.getElementById('orders-tbody').innerHTML=html;
+}
+
+function updateOrderStatus(code,newStatus){
+  // ໃຊ້ GET ແທນ POST ເພາະ GAS redirect ຕັດ POST body (CORS issue ຈາກ GitHub Pages)
+  var doUpdate=function(){
+    if(typeof google!=='undefined'&&google.script&&google.script.run){
+      google.script.run
+        .withSuccessHandler(function(res){
+          if(res&&res.status==='ok'){
+            var o=adminOrders.find(function(x){return x.code===code;});
+            if(o)o.orderStatus=newStatus;
+            adminRenderStats();
+          } else alert('❌ '+(res&&res.message?res.message:'Error'));
+        })
+        .withFailureHandler(function(e){alert('❌ '+e.message);})
+        .updateOrderStatus(code,newStatus);
+      return;
+    }
+    // GET-based approach — ບໍ່ຕິດ CORS redirect
+    var url=SCRIPT_URL
+      +'?action=updateOrderStatus'
+      +'&code='+encodeURIComponent(code)
+      +'&status='+encodeURIComponent(newStatus);
+    fetch(url,{method:'GET',redirect:'follow'})
+      .then(function(r){return r.json();})
+      .then(function(res){
+        if(res&&res.status==='ok'){
+          var o=adminOrders.find(function(x){return x.code===code;});
+          if(o)o.orderStatus=newStatus;
+          adminRenderStats();
+          // flash ແຖວທີ່ອັບເດດ
+          var sels=document.querySelectorAll('.order-status-sel');
+          sels.forEach(function(sel){
+            if(sel.value===newStatus&&sel.closest('tr')){
+              var tr=sel.closest('tr');
+              tr.style.background='#E8F5EE';
+              setTimeout(function(){tr.style.background='';},1200);
+            }
+          });
+        } else {
+          alert('❌ '+(res&&res.message?res.message:'ອັບເດດບໍ່ສຳເລັດ'));
+        }
+      })
+      .catch(function(err){
+        console.error('updateOrderStatus error:',err);
+        alert('❌ ເຊື່ອມຕໍ່ບໍ່ໄດ້ ກະລຸນາລອງໃໝ່');
+      });
+  };
+  doUpdate();
+}
+
+function viewSlip(url){
+  var viewUrl=url.includes('/view')?url.replace('/view','').replace('file/d/','uc?export=view&id='):url;
+  document.getElementById('slip-modal-img').src=viewUrl;
+  document.getElementById('slip-modal').classList.add('show');
+}
+function closeSlipModal(){document.getElementById('slip-modal').classList.remove('show');}
+
+// ══════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded',loadProducts);
+</script>
+</body>
+</html>
