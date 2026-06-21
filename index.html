@@ -495,13 +495,13 @@ input,select,textarea{font-family:inherit}
             <label class="pay-opt" onclick="selectPay(this,'ເກັບປາຍທາງ COD')">
               <input type="radio" name="pay" value="ເກັບປາຍທາງ COD">
               <div class="pay-opt-icon">📬</div>
-              <div><div class="pay-opt-name">ເກັບປາຍທາງ COD</div><div class="pay-opt-desc">ສະເພາະ ອານຸສິດ · ມັດຈຳ 15,000₭</div></div>
+              <div><div class="pay-opt-name">ເກັບປາຍທາງ COD</div><div class="pay-opt-desc">ສະເພາະ ອານຸສິດ · ມັດຈຳ 20,000₭</div></div>
             </label>
           </div>
           <div class="field-error" id="err-pay" style="margin-top:5px">ກະລຸນາເລືອກການຊຳລະ</div>
 
           <div class="qr-pay-box" id="qr-pay-box">
-            <div class="qr-pay-title">📲 ສະແກນ QR ເພື່ອໂອນ (BCEL One / ທ/ຄ)</div>
+            <div class="qr-pay-title" id="qr-pay-title">📲 ສະແກນ QR ເພື່ອໂອນ (BCEL One / ທ/ຄ)</div>
             <div class="qr-img-wrap">
               <img class="qr-img" id="qr-img"
                 src="https://drive.google.com/uc?export=view&id=1uQMuG17oqaPiPDePA95-FngrMPJxA-JQ"
@@ -512,10 +512,11 @@ input,select,textarea{font-family:inherit}
           </div>
 
           <div class="cod-warning" id="cod-warning">
-            ⚠️ <strong>ເງື່ອນໄຂ COD:</strong><br>
+            ⚠️ <strong>ເງື່ອນໄຂ ເກັບປາຍທາງ COD:</strong><br>
             • ສະເພາະ <strong>ຂົນສົ່ງ ອານຸສິດ</strong> ເທົ່ານັ້ນ<br>
-            • ກ່ອນຝາກ ຕ້ອງ <strong>ໂອນມັດຈຳ 15,000 ₭</strong> ກ່ອນ<br>
-            • ສະແກນ QR ຂ້ານເທີ່ງ ແລ້ວ ອັບໂຫຼດສະລິບ
+            • ກ່ອນຝາກ ຕ້ອງ <strong>ໂອນມັດຈຳ 20,000 ₭</strong> ກ່ອນ ແລ້ວອັບໂຫຼດສະລິບແນບມານຳ<br>
+            • 💚 ມັດຈຳນີ້ບໍ່ເສຍເພີ່ມ — ຈະຖືກ ຫັກອອກຈາກຍອດທີ່ຕ້ອງຈ່າຍປາຍທາງ ໂດຍກົງ<br>
+            • 🛡️ ມັດຈຳນີ້ມີໄວ້ປ້ອງກັນກໍລະນີລູກຄ້າບໍ່ໄປຮັບເຄື່ອງ ເຮັດໃຫ້ແມ່ຄ້າຕ້ອງເສຍຄ່າຝາກເອງ
           </div>
         </div>
 
@@ -644,6 +645,7 @@ input,select,textarea{font-family:inherit}
 var SCRIPT_URL    = 'https://script.google.com/macros/s/AKfycbwYP0bCa0PubM1Taf5btkBPD7lgo0MpQnWzntWGc4KP9HZrlWBvIWM0j2EhAat9707Gvg/exec';
 var ADMIN_PASSWORD = 'soudsada2025';
 var QR_IMG_URL    = 'https://drive.google.com/uc?export=view&id=1uQMuG17oqaPiPDePA95-FngrMPJxA-JQ';
+var QR_IMG_URL_COD = 'https://drive.google.com/uc?export=view&id=1FYKb4HwHfDWe6NraW78pGUynF3pl6Gn3';
 
 // ══════════════════════════════════════════════
 //  STATE
@@ -910,6 +912,21 @@ function selectPay(el,val){
   updatePayState();
 }
 
+// ★ ອັບເດດ QR ໂຕເລືອກໃຫ້ກົງກັບການຊຳລະ (ໂອນຈ່າຍ ໃຊ້ QR ເກົ່າ / COD ໃຊ້ QR ໃໝ່)
+function updateQrForPayment(){
+  var imgEl   = document.getElementById('qr-img');
+  var titleEl = document.getElementById('qr-pay-title');
+  if(selectedPay==='ເກັບປາຍທາງ COD'){
+    imgEl.src = QR_IMG_URL_COD;
+    imgEl.onerror = function(){ this.onerror=null; this.src = QR_IMG_URL_COD.replace('uc?export=view&','thumbnail?')+'&sz=w400'; };
+    titleEl.textContent = '📲 ສະແກນ QR ເພື່ອໂອນມັດຈຳ COD (BCEL One / ທ/ຄ)';
+  } else {
+    imgEl.src = QR_IMG_URL;
+    imgEl.onerror = function(){ this.onerror=null; this.src = QR_IMG_URL.replace('uc?export=view&','thumbnail?')+'&sz=w400'; };
+    titleEl.textContent = '📲 ສະແກນ QR ເພື່ອໂອນ (BCEL One / ທ/ຄ)';
+  }
+}
+
 function updatePayState(){
   var isCOD=selectedPay==='ເກັບປາຍທາງ COD';
   var isTransfer=selectedPay==='ໂອນຈ່າຍ';
@@ -917,6 +934,7 @@ function updatePayState(){
   document.getElementById('qr-pay-box').classList.toggle('show',showQR);
   document.getElementById('cod-warning').classList.toggle('show',isCOD);
   document.getElementById('slip-section').style.display=showQR?'block':'none';
+  if(showQR) updateQrForPayment();
   if(isCOD && selectedShip!=='ອານຸສິດ'){
     document.querySelectorAll('.ship-opt').forEach(function(o){o.classList.remove('active');});
     var first=document.querySelector('.ship-opt');
@@ -929,7 +947,8 @@ function updatePayState(){
 //  QR DOWNLOAD
 // ══════════════════════════════════════════════
 function downloadQR(){
-  window.open(QR_IMG_URL,'_blank');
+  var url = selectedPay==='ເກັບປາຍທາງ COD' ? QR_IMG_URL_COD : QR_IMG_URL;
+  window.open(url,'_blank');
 }
 
 // ══════════════════════════════════════════════
@@ -1136,7 +1155,7 @@ function showSuccess(code,total,name,phone,shipping){
   html+='<div class="success-bill-row"><span class="sbl">💳 ຊຳລະ</span><span class="sbv">'+selectedPay+'</span></div>';
   html+='<div class="success-bill-total"><span>ລວມທັງໝົດ</span><span>'+fN(total)+' ₭</span></div>';
   document.getElementById('success-bill').innerHTML=html;
-  var payMsg=selectedPay==='ເກັບປາຍທາງ COD'?'⚠️ ໂອນມັດຈຳ 15,000₭ ກ່ອນ!'
+  var payMsg=selectedPay==='ເກັບປາຍທາງ COD'?'⚠️ ໂອນມັດຈຳ 20,000₭ ກ່ອນ!'
     :selectedPay==='ໂອນຈ່າຍ'?'💳 ທາງຮ້ານຈະກວດສອບ ແລ້ວຈັດສົ່ງ':'💵 ຈ່າຍເວລາຮັບເຄື່ອງ';
   document.getElementById('success-pay-msg').textContent=payMsg;
   document.getElementById('success-modal').classList.add('show');
